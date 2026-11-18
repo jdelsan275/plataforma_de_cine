@@ -1,0 +1,56 @@
+<!-- header.html -->
+<header th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" th:text="#{msg.title}"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"
+                           th:href="@{/}" th:text="#{msg.home}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                           th:href="@{/peliculas}" th:text="#{msg.peliculas}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                           th:href="@{/actores}" th:text="#{msg.actores}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                           th:href="@{/sesiones}" th:text="#{msg.sesiones}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                           th:href="@{/salas}" th:text="#{msg.salas}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                           th:href="@{/encargados}" th:text="#{msg.encargados}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"
+                           th:href="@{/proyectores}" th:text="#{msg.proyectores}"></a>
+                    </li>
+                </ul>
+                <form method="get" class="d-flex form-inline">
+                    <label>
+                        <!-- Si el parámetro id no es nulo, se incluye un campo oculto con el valor del id
+                         para mantenerlo en la URL para que no se pierda al cambiar el idioma -->
+                        <input th:if="${param.id != null}" type="hidden" name="id" th:value="${param.id[0]}">
+                        <select name="lang" onchange="this.form.submit()" class="form-select">
+                            <option value="es" th:selected="${#locale.language == 'es'}">Español</option>
+                            <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                        </select>
+                    </label>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
