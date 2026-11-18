@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('Plataforma de Cine - Home')}"></head>
+
+<body>
+
+<!-- Insertar el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
+
+<!-- Contenido dinámico -->
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+        <h1 th:text="#{msg.title}">Plataforma de Cine</h1>
+        <p class="lead" th:text="#{msg.description}">GRUPO 1 (Ana, Jesús, Alejandro) - Aplicación Web para la gestión de Cines</p>
+    </div>
+</main>
+
+
+<!-- Insertar el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
