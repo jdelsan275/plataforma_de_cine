@@ -2,11 +2,13 @@ package org.alixar.daw2.plataforma_de_cine.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,12 +26,17 @@ public class Sesion {
     @Column(name = "id_sesion")
     private Long id;
 
+    @NotNull(message = "La fecha de la sesión no puede estar vacía")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "fecha_sesion", nullable = false)
     private LocalDate fechaSesion;
 
+    @NotNull(message = "La hora de la sesión no puede estar vacía")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "hora", nullable = false)
     private LocalTime hora;
 
+    @NotNull(message = "El precio no puede estar vacío")
     @DecimalMin(value = "0.0", message = "El precio no puede ser negativo")
     @Column(name = "precio", nullable = false, precision = 6, scale = 2)
     private BigDecimal precio;
