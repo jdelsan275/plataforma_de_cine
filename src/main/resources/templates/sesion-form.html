@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{msg.sesion.title}">Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4" style="max-width: 600px;">
+    <h1 th:text="${sesion.id == null} ? #{msg.sesion.form.new} : #{msg.sesion.form.edit}">Sesión</h1>
+
+    <form th:action="${sesion.id == null} ? @{/sesiones/insert} : @{/sesiones/update}"
+          th:object="${sesion}" method="post" class="mt-4">
+
+        <input type="hidden" th:if="*{id != null}" th:field="*{id}"/>
+
+        <div class="mb-3">
+            <label for="fechaSesion" class="form-label" th:text="#{msg.sesion.fecha}">Fecha</label>
+            <input type="date" th:field="*{fechaSesion}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('fechaSesion')}" th:errors="*{fechaSesion}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="hora" class="form-label" th:text="#{msg.sesion.hora}">Hora</label>
+            <input type="time" th:field="*{hora}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('hora')}" th:errors="*{hora}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="precio" class="form-label" th:text="#{msg.sesion.precio}">Precio</label>
+            <input type="number" step="0.01" min="0" th:field="*{precio}" class="form-control"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" th:field="*{sesionAM}" class="form-check-input"/>
+            <label for="sesionAM" class="form-check-label" th:text="#{msg.sesion.am}">Mañana</label>
+        </div>
+
+        <div class="mb-3">
+            <label for="sala.id" class="form-label" th:text="#{msg.sesion.sala}">Sala</label>
+            <select th:field="*{sala.id}" class="form-select">
+                <option value="" th:text="#{msg.sesion.form.select}"></option>
+                <option th:each="s : ${salas}" th:value="${s.id}"
+                        th:text="${'Sala ' + s.numeroSala}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('sala')}" th:errors="*{sala}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="pelicula.id" class="form-label" th:text="#{msg.sesion.pelicula}">Película</label>
+            <select th:field="*{pelicula.id}" class="form-select">
+                <option value="" th:text="#{msg.sesion.form.select}"></option>
+                <option th:each="p : ${peliculas}" th:value="${p.id}" th:text="${p.titulo}"></option>
+            </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('pelicula')}" th:errors="*{pelicula}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="#{msg.sesion.form.save}">Guardar</button>
+        <a th:href="@{/sesiones}" class="btn btn-secondary" th:text="#{msg.sesion.form.cancel}">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>
