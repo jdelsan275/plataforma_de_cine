@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head ('Encargados')}"></head>
+
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 th:text="#{encargado.titulo}">Encargados</h1>
+
+            <a th:href="@{/encargados/nuevo}" class="btn btn-primary"
+               th:text="#{encargado.boton.nuevo}">
+                Añadir encargado
+            </a>
+        </div>
+
+        <!-- Mensajes de confirmación o error -->
+        <div th:if="${mensaje != null}" class="alert alert-info"
+             th:text="#{${mensaje}}">
+        </div>
+
+        <!-- Tabla de encargados -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+
+                <thead class="table-dark">
+                <tr>
+                    <th th:text="#{encargado.id}">ID</th>
+                    <th th:text="#{encargado.nombre}">Nombre</th>
+                    <th th:text="#{encargado.primerApellido}">Primer apellido</th>
+                    <th th:text="#{encargado.segundoApellido}">Segundo apellido</th>
+                    <th th:text="#{encargado.acciones}">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="encargado : ${encargados}">
+                    <td th:text="${encargado.id}"></td>
+                    <td th:text="${encargado.nombre}"></td>
+                    <td th:text="${encargado.primerApellido}"></td>
+                    <td th:text="${encargado.segundoApellido != null ? encargado.segundoApellido : '-'}"></td>
+
+                    <td>
+                        <a th:href="@{/encargados/editar/{id}(id=${encargado.id})}"
+                           class="btn btn-warning btn-sm"
+                           th:text="#{encargado.boton.editar}">
+                            Editar
+                        </a>
+
+                        <form th:action="@{/encargados/eliminar/{id}(id=${encargado.id})}"
+                              method="post" class="d-inline"
+                              onsubmit="return confirm('¿Estás seguro de que quieres eliminar este encargado?')">
+
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    th:text="#{encargado.boton.eliminar}">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(encargados)}">
+                    <td colspan="5" class="text-center"
+                        th:text="#{encargado.sinResultados}">
+                        No hay encargados registrados.
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

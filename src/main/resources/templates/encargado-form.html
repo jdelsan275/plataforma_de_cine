@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head ('Formulario de encargado')}"></head>
+
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+
+        <h1 class="mb-4" th:text="#{${tituloFormulario}}">
+            Formulario de encargado
+        </h1>
+
+        <form th:action="@{/encargados/guardar}"
+              th:object="${encargado}"
+              method="post">
+
+            <!-- Identificador: se mantiene al editar -->
+            <input type="hidden" th:field="*{id}">
+
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label"
+                       th:text="#{encargado.nombre}">
+                    Nombre
+                </label>
+
+                <input type="text" id="nombre" class="form-control"
+                       th:field="*{nombre}"
+                       th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'">
+
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('nombre')}"
+                     th:errors="*{nombre}">
+                </div>
+            </div>
+
+            <!-- Primer apellido -->
+            <div class="mb-3">
+                <label for="primerApellido" class="form-label"
+                       th:text="#{encargado.primerApellido}">
+                    Primer apellido
+                </label>
+
+                <input type="text" id="primerApellido" class="form-control"
+                       th:field="*{primerApellido}"
+                       th:classappend="${#fields.hasErrors('primerApellido')} ? 'is-invalid'">
+
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('primerApellido')}"
+                     th:errors="*{primerApellido}">
+                </div>
+            </div>
+
+            <!-- Segundo apellido -->
+            <div class="mb-3">
+                <label for="segundoApellido" class="form-label"
+                       th:text="#{encargado.segundoApellido}">
+                    Segundo apellido
+                </label>
+
+                <input type="text" id="segundoApellido" class="form-control"
+                       th:field="*{segundoApellido}"
+                       th:classappend="${#fields.hasErrors('segundoApellido')} ? 'is-invalid'">
+
+                <div class="invalid-feedback"
+                     th:if="${#fields.hasErrors('segundoApellido')}"
+                     th:errors="*{segundoApellido}">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary"
+                        th:text="#{encargado.boton.guardar}">
+                    Guardar
+                </button>
+
+                <a th:href="@{/encargados}" class="btn btn-secondary"
+                   th:text="#{encargado.boton.cancelar}">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-INSERT IGNORE INTO encargado (id_encargado, nombre, primerApellido, segundoApellido)
+INSERT IGNORE INTO encargado (id_encargado, nombre, primer_apellido, segundo_apellido)
 VALUES (1, 'Carlos', 'Ruiz', 'Molina'),
        (2, 'Lucía', 'Fernández', 'Soto'),
        (3, 'Miguel', 'Torres', 'Navarro'),

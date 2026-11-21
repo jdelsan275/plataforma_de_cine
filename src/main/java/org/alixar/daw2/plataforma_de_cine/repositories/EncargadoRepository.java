@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface EncargadoRepository extends JpaRepository<Encargado, Long> {
 
-   //queda comentado por el momento para que no de fallo al compilar
-    //se queda así hasta que esté la parte correspondiente en sala
-   // List<Encargado> findBySalaIsNull();
+   List<Encargado> findBySalaIsNull();
 }

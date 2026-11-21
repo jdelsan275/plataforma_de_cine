@@ -28,17 +28,16 @@ public class Encargado {
 
     @NotEmpty(message = "El primer apellido no puede estar vacío")
     @Size(max = 30, message = "El primer apellido no puede tener más de 30 caracteres")
-    @Column(name = "primerApellido", nullable = false, length = 30)
+    @Column(name = "primer_apellido", nullable = false, length = 30)
     private String primerApellido;
 
     @Size(max = 30, message = "El segundo apellido no puede tener más de 30 caracteres")
-    @Column(name = "segundoApellido", length = 30)
+    @Column(name = "segundo_apellido", length = 30)
     private String segundoApellido;
 
-    //queda comentado por el momento para que no de fallo al compilar
-    //se queda así hasta que esté la parte correspondiente en sala
-    //@ToString.Exclude
-    //@EqualsAndHashCode.Exclude
-    //@OneToOne(mappedBy = "encargado", fetch = FetchType.LAZY)
-    //private Sala sala;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToOne(mappedBy = "encargado", fetch = FetchType.LAZY)
+    private Sala sala;
 }
