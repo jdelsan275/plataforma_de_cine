@@ -1,95 +1,63 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="~{fragments/head :: head ('Formulario de encargado')}"></head>
-
+<head th:replace="~{fragments/head :: head('Plataforma de Cine - Encargado')}"></head>
 <body>
 
+<!-- Insertar el fragmento del header -->
 <header th:replace="~{fragments/header :: header}"></header>
 
 <main class="flex-shrink-0 contenido">
     <div class="container">
+        <h1 th:text="${encargado.id == null} ? #{msg.encargado-form.add} : #{msg.encargado-form.edit}"></h1>
 
-        <h1 class="mb-4" th:text="#{${tituloFormulario}}">
-            Formulario de encargado
-        </h1>
+        <!-- Mensaje de error si hay algún problema -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
 
-        <form th:action="@{/encargados/guardar}"
-              th:object="${encargado}"
-              method="post">
+        <!-- Una única pantalla para crear y editar: la acción cambia según haya id o no -->
+        <form th:action="${encargado.id == null} ? @{/encargados/insert} : @{/encargados/update}"
+              th:object="${encargado}" method="post" class="mt-4">
+            <input type="hidden" th:field="*{id}"/>
 
-            <!-- Identificador: se mantiene al editar -->
-            <input type="hidden" th:field="*{id}">
-
-            <!-- Nombre -->
             <div class="mb-3">
-                <label for="nombre" class="form-label"
-                       th:text="#{encargado.nombre}">
-                    Nombre
-                </label>
-
-                <input type="text" id="nombre" class="form-control"
-                       th:field="*{nombre}"
-                       th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'">
-
-                <div class="invalid-feedback"
-                     th:if="${#fields.hasErrors('nombre')}"
-                     th:errors="*{nombre}">
-                </div>
+                <label for="nombre" class="form-label" th:text="#{msg.encargado-form.nombre}"></label>
+                <input type="text" th:field="*{nombre}" id="nombre" class="form-control"/>
+                <div th:if="${#fields.hasErrors('nombre')}" class="text-danger" th:errors="*{nombre}"></div>
             </div>
 
-            <!-- Primer apellido -->
             <div class="mb-3">
-                <label for="primerApellido" class="form-label"
-                       th:text="#{encargado.primerApellido}">
-                    Primer apellido
-                </label>
-
-                <input type="text" id="primerApellido" class="form-control"
-                       th:field="*{primerApellido}"
-                       th:classappend="${#fields.hasErrors('primerApellido')} ? 'is-invalid'">
-
-                <div class="invalid-feedback"
-                     th:if="${#fields.hasErrors('primerApellido')}"
-                     th:errors="*{primerApellido}">
-                </div>
+                <label for="primerApellido" class="form-label" th:text="#{msg.encargado-form.primerApellido}"></label>
+                <input type="text" th:field="*{primerApellido}" id="primerApellido" class="form-control"/>
+                <div th:if="${#fields.hasErrors('primerApellido')}" class="text-danger"
+                     th:errors="*{primerApellido}"></div>
             </div>
 
-            <!-- Segundo apellido -->
             <div class="mb-3">
-                <label for="segundoApellido" class="form-label"
-                       th:text="#{encargado.segundoApellido}">
-                    Segundo apellido
-                </label>
-
-                <input type="text" id="segundoApellido" class="form-control"
-                       th:field="*{segundoApellido}"
-                       th:classappend="${#fields.hasErrors('segundoApellido')} ? 'is-invalid'">
-
-                <div class="invalid-feedback"
-                     th:if="${#fields.hasErrors('segundoApellido')}"
-                     th:errors="*{segundoApellido}">
-                </div>
+                <label for="segundoApellido" class="form-label" th:text="#{msg.encargado-form.segundoApellido}"></label>
+                <input type="text" th:field="*{segundoApellido}" id="segundoApellido" class="form-control"/>
+                <div th:if="${#fields.hasErrors('segundoApellido')}" class="text-danger"
+                     th:errors="*{segundoApellido}"></div>
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary"
-                        th:text="#{encargado.boton.guardar}">
-                    Guardar
-                </button>
-
-                <a th:href="@{/encargados}" class="btn btn-secondary"
-                   th:text="#{encargado.boton.cancelar}">
-                    Cancelar
-                </a>
+            <!-- Sala asignada: solo lectura (se asigna desde el formulario de la sala).
+                 Al ir deshabilitado no se envía con el formulario. -->
+            <div class="mb-3">
+                <label for="sala" class="form-label" th:text="#{msg.encargado-form.sala}"></label>
+                <input type="text" id="sala" class="form-control" disabled
+                       th:value="${encargado.sala != null} ? #{msg.encargado.salaNumero(${encargado.sala.numeroSala})} : #{msg.encargado.noSala}"/>
+                <div class="form-text" th:text="#{msg.encargado-form.sala.help}"></div>
             </div>
 
+            <button type="submit" class="btn btn-primary"
+                    th:text="${encargado.id == null} ? #{msg.encargado-form.create} : #{msg.encargado-form.update}"></button>
         </form>
 
+        <a th:href="@{/encargados}" class="btn btn-secondary mt-3" th:text="#{msg.encargado-form.returnback}"></a>
     </div>
 </main>
 
+<!-- Insertar el fragmento del footer -->
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>

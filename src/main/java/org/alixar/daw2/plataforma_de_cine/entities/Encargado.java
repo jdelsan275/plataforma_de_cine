@@ -21,17 +21,20 @@ public class Encargado {
     @Column(name = "id_encargado")
     private Long id;
 
-    @NotEmpty(message = "El nombre no puede estar vacío")
-    @Size(max = 30, message = "El nombre no puede tener más de 30 caracteres")
+
+    @NotEmpty(message = "{msg.encargado.nombre.notEmpty}")
+    @Size(max = 30, message = "{msg.encargado.nombre.size}")
     @Column(name = "nombre", nullable = false, length = 30)
     private String nombre;
 
-    @NotEmpty(message = "El primer apellido no puede estar vacío")
-    @Size(max = 30, message = "El primer apellido no puede tener más de 30 caracteres")
+
+    @NotEmpty(message = "{msg.encargado.primerApellido.notEmpty}")
+    @Size(max = 30, message = "{msg.encargado.primerApellido.size}")
     @Column(name = "primer_apellido", nullable = false, length = 30)
     private String primerApellido;
 
-    @Size(max = 30, message = "El segundo apellido no puede tener más de 30 caracteres")
+
+    @Size(max = 30, message = "{msg.encargado.segundoApellido.size}")
     @Column(name = "segundo_apellido", length = 30)
     private String segundoApellido;
 
