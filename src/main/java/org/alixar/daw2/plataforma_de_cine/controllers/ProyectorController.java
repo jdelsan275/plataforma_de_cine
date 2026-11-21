@@ -1,3 +1,4 @@
+
 package org.alixar.daw2.plataforma_de_cine.controllers;
 
 import jakarta.validation.Valid;
@@ -18,23 +19,43 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-
+/**
+ * Controller encargado de gestionar los proyectores del cine.
+ * Permite listar, crear, editar y eliminar proyectores.
+ */
 @Controller
 @RequestMapping("/proyectores")
 public class ProyectorController {
 
+    /** Logger para mostrar informacion sobre las operaciones realizadas. */
     private static final Logger logger = LoggerFactory.getLogger(ProyectorController.class);
 
+    /** Repository utilizado para acceder a los proyectores de la base de datos. */
     private final ProyectorRepository proyectorRepository;
+
+    /** Permite obtener los mensajes traducidos segun el idioma. */
     private final MessageSource messageSource;
 
 
+    /**
+     * Constructor del controller.
+     *
+     * @param proyectorRepository repository para gestionar los proyectores
+     * @param messageSource componente utilizado para obtener los mensajes
+     */
     public ProyectorController(ProyectorRepository proyectorRepository, MessageSource messageSource) {
         this.proyectorRepository = proyectorRepository;
         this.messageSource = messageSource;
     }
 
 
+    /**
+     * Muestra el listado de todos los proyectores.
+     *
+     * @param model modelo donde se guardan los datos que se envian a la vista
+     * @param locale idioma utilizado para mostrar los mensajes
+     * @return nombre de la vista proyectores
+     */
     @GetMapping
     public String listProyectores(Model model, Locale locale) {
         logger.info("Solicitando la lista de todos los proyectores...");
@@ -51,6 +72,13 @@ public class ProyectorController {
         return "proyectores";
     }
 
+
+    /**
+     * Muestra el formulario para crear un proyector nuevo.
+     *
+     * @param model modelo donde se guarda el proyector vacio
+     * @return nombre de la vista del formulario
+     */
     @GetMapping("/new")
     public String showNewForm(Model model) {
         logger.info("Mostrando formulario para un nuevo proyector.");
@@ -59,6 +87,15 @@ public class ProyectorController {
     }
 
 
+    /**
+     * Busca un proyector por su id y muestra sus datos en el formulario de edicion.
+     *
+     * @param id identificador del proyector
+     * @param model modelo donde se guardan los datos del proyector
+     * @param redirectAttributes atributos que se envian al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return formulario de edicion o redireccion al listado
+     */
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model,
                                RedirectAttributes redirectAttributes, Locale locale) {
@@ -82,6 +119,15 @@ public class ProyectorController {
     }
 
 
+    /**
+     * Guarda un proyector nuevo en la base de datos.
+     *
+     * @param proyector proyector que se va a guardar
+     * @param result resultado de las validaciones del formulario
+     * @param redirectAttributes atributos para enviar mensajes al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return formulario si hay errores o redireccion al listado
+     */
     @PostMapping("/insert")
     public String insertProyector(@Valid @ModelAttribute("proyector") Proyector proyector, BindingResult result,
                                   RedirectAttributes redirectAttributes, Locale locale) {
@@ -101,6 +147,15 @@ public class ProyectorController {
     }
 
 
+    /**
+     * Actualiza los datos de un proyector existente.
+     *
+     * @param proyector proyector con los datos actualizados
+     * @param result resultado de las validaciones del formulario
+     * @param redirectAttributes atributos para enviar mensajes al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return formulario si hay errores o redireccion al listado
+     */
     @PostMapping("/update")
     public String updateProyector(@Valid @ModelAttribute("proyector") Proyector proyector, BindingResult result,
                                   RedirectAttributes redirectAttributes, Locale locale) {
@@ -120,6 +175,15 @@ public class ProyectorController {
         return "redirect:/proyectores";
     }
 
+
+    /**
+     * Elimina un proyector utilizando su id.
+     *
+     * @param id identificador del proyector que se va a eliminar
+     * @param redirectAttributes atributos para enviar mensajes al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return redireccion al listado de proyectores
+     */
     @PostMapping("/delete")
     public String deleteProyector(@RequestParam("id") Long id, RedirectAttributes redirectAttributes,
                                   Locale locale) {
@@ -139,6 +203,13 @@ public class ProyectorController {
         return "redirect:/proyectores";
     }
 
+
+    /**
+     * Recupera la sala que tenia asignada el proyector.
+     * Se utiliza cuando el formulario devuelve errores de validacion.
+     *
+     * @param proyector proyector cuya sala se quiere recuperar
+     */
     private void restoreSala(Proyector proyector) {
         if (proyector.getId() == null) {
             return;
