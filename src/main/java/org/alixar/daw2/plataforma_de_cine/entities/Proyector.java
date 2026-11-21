@@ -36,9 +36,8 @@ public class Proyector {
     @Column(name = "marca", nullable = false, length = 30)
     private String marca;
 
-//comentado hasta que se termine la entidad sala
-    //@ToString.Exclude
-    //@EqualsAndHashCode.Exclude
-    //@OneToOne(mappedBy = "proyector", fetch = FetchType.LAZY)
-    //private Sala sala;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToOne(mappedBy = "proyector", fetch = FetchType.LAZY)
+    private Sala sala;
 }

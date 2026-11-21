@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS encargado
 (
     id_encargado BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
-    primerApellido VARCHAR(30) NOT NULL,
-    segundoApellido VARCHAR(30) NOT NULL
+    primer_apellido VARCHAR(30) NOT NULL,
+    segundo_apellido VARCHAR(30)
     );
 
 CREATE TABLE IF NOT EXISTS proyector

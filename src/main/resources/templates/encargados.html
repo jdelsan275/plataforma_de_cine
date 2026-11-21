@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Plataforma de Cine - Encargados')}"></head>
+<body>
+
+<!-- Insertar el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+        <h1 th:text="#{msg.encargado.title}"></h1>
+
+        <!-- Mensaje de error si hay algún problema -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <!-- Mensaje si no hay encargados -->
+        <p th:if="${listEncargados != null and #lists.isEmpty(listEncargados)}" class="mt-3"
+           th:text="#{msg.encargado.empty}"></p>
+
+        <!-- Listado de encargados -->
+        <table th:if="${listEncargados != null and !#lists.isEmpty(listEncargados)}"
+               class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th th:text="#{msg.encargado.id}"></th>
+                <th th:text="#{msg.encargado.nombre}"></th>
+                <th th:text="#{msg.encargado.apellidos}"></th>
+                <th th:text="#{msg.encargado.sala}"></th>
+                <th th:text="#{msg.encargado.actions}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="encargado : ${listEncargados}">
+                <td th:text="${encargado.id}"></td>
+                <td th:text="${encargado.nombre}"></td>
+                <td th:text="${encargado.primerApellido + ' ' + (encargado.segundoApellido ?: '')}"></td>
+                <!-- Sala asignada: texto legible, no solo el id -->
+                <td th:text="${encargado.sala != null} ? #{msg.encargado.salaNumero(${encargado.sala.numeroSala})} : #{msg.encargado.noSala}"></td>
+                <td>
+                    <!-- Botón para editar -->
+                    <a th:href="@{/encargados/edit(id=${encargado.id})}" class="btn btn-primary btn-sm"
+                       th:text="#{msg.encargado.edit}"></a>
+                    <!-- Botón para eliminar -->
+                    <form th:action="@{/encargados/delete}" method="post" class="d-inline">
+                        <input type="hidden" name="id" th:value="${encargado.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                th:attr="data-confirm=#{msg.encargado.confirm}"
+                                onclick="return confirm(this.dataset.confirm);"
+                                th:text="#{msg.encargado.delete}"></button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/encargados/new}" class="btn btn-success mt-3" th:text="#{msg.encargado.add}"></a>
+        <a th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.encargado.back}"></a>
+    </div>
+</main>
+
+<!-- Insertar el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
