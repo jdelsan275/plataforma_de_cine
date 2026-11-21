@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS actor
     id_actor BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(20) NOT NULL,
     primerApellido VARCHAR(50) NOT NULL,
-    segundoApellido VARCHAR(50) NOT NULL,
+    segundoApellido VARCHAR(50),
     fecha_nacimiento DATE NOT NULL,
     nacionalidad VARCHAR(30) NOT NULL
     );
