@@ -9,11 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-/**
- * Entidad que representa un proyector del cine.
- * Cada proyector pertenece a una única sala (relación uno a uno que gestiona la entidad {@code Sala},
- * que es la propietaria de la clave foránea {@code id_proyector}).
- */
+
 @Entity
 @Table(name = "proyector")
 @Data
@@ -26,13 +22,13 @@ public class Proyector {
     @Column(name = "id_proyector")
     private Long id;
 
-    @NotEmpty(message = "El modelo no puede estar vacío")
-    @Size(max = 30, message = "El modelo no puede tener más de 30 caracteres")
+    @NotEmpty(message = "{msg.proyector.modelo.notEmpty}")
+    @Size(max = 30, message = "{msg.proyector.modelo.size}")
     @Column(name = "modelo", nullable = false, length = 30)
     private String modelo;
 
-    @NotEmpty(message = "La marca no puede estar vacía")
-    @Size(max = 30, message = "La marca no puede tener más de 30 caracteres")
+    @NotEmpty(message = "{msg.proyector.marca.notEmpty}")
+    @Size(max = 30, message = "{msg.proyector.marca.size}")
     @Column(name = "marca", nullable = false, length = 30)
     private String marca;
 

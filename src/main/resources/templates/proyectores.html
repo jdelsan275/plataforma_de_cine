@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Plataforma de Cine - Proyectores')}"></head>
+<body>
+
+<!-- Insertar el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+        <h1 th:text="#{msg.proyector.title}"></h1>
+
+        <!-- Mensaje de error si hay algún problema -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <!-- Mensaje si no hay proyectores -->
+        <p th:if="${listProyectores != null and #lists.isEmpty(listProyectores)}" class="mt-3"
+           th:text="#{msg.proyector.empty}"></p>
+
+        <!-- Listado de proyectores -->
+        <table th:if="${listProyectores != null and !#lists.isEmpty(listProyectores)}"
+               class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th th:text="#{msg.proyector.id}"></th>
+                <th th:text="#{msg.proyector.modelo}"></th>
+                <th th:text="#{msg.proyector.marca}"></th>
+                <th th:text="#{msg.proyector.sala}"></th>
+                <th th:text="#{msg.proyector.actions}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="proyector : ${listProyectores}">
+                <td th:text="${proyector.id}"></td>
+                <td th:text="${proyector.modelo}"></td>
+                <td th:text="${proyector.marca}"></td>
+                <!-- Sala asignada: texto legible, no solo el id -->
+                <td th:text="${proyector.sala != null} ? #{msg.proyector.salaNumero(${proyector.sala.numeroSala})} : #{msg.proyector.noSala}"></td>
+                <td>
+                    <!-- Botón para editar -->
+                    <a th:href="@{/proyectores/edit(id=${proyector.id})}" class="btn btn-primary btn-sm"
+                       th:text="#{msg.proyector.edit}"></a>
+                    <!-- Botón para eliminar -->
+                    <form th:action="@{/proyectores/delete}" method="post" class="d-inline">
+                        <input type="hidden" name="id" th:value="${proyector.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                th:attr="data-confirm=#{msg.proyector.confirm}"
+                                onclick="return confirm(this.dataset.confirm);"
+                                th:text="#{msg.proyector.delete}"></button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/proyectores/new}" class="btn btn-success mt-3" th:text="#{msg.proyector.add}"></a>
+        <a th:href="@{/static}" class="btn btn-secondary mt-3" th:text="#{msg.proyector.back}"></a>
+    </div>
+</main>
+
+<!-- Insertar el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

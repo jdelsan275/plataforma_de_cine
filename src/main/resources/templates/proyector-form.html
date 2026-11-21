@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Plataforma de Cine - Proyector')}"></head>
+<body>
+
+<!-- Insertar el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+        <h1 th:text="${proyector.id == null} ? #{msg.proyector-form.add} : #{msg.proyector-form.edit}"></h1>
+
+        <!-- Mensaje de error si hay algún problema -->
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
+        <!-- Una única pantalla para crear y editar: la acción cambia según haya id o no -->
+        <form th:action="${proyector.id == null} ? @{/proyectores/insert} : @{/proyectores/update}"
+              th:object="${proyector}" method="post" class="mt-4">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label for="modelo" class="form-label" th:text="#{msg.proyector-form.modelo}"></label>
+                <input type="text" th:field="*{modelo}" id="modelo" class="form-control"/>
+                <div th:if="${#fields.hasErrors('modelo')}" class="text-danger" th:errors="*{modelo}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="marca" class="form-label" th:text="#{msg.proyector-form.marca}"></label>
+                <input type="text" th:field="*{marca}" id="marca" class="form-control"/>
+                <div th:if="${#fields.hasErrors('marca')}" class="text-danger" th:errors="*{marca}"></div>
+            </div>
+
+            <!-- Sala asignada: solo lectura (se asigna desde el formulario de la sala).
+                 Al ir deshabilitado no se envía con el formulario. -->
+            <div class="mb-3">
+                <label for="sala" class="form-label" th:text="#{msg.proyector-form.sala}"></label>
+                <input type="text" id="sala" class="form-control" disabled
+                       th:value="${proyector.sala != null} ? #{msg.proyector.salaNumero(${proyector.sala.numeroSala})} : #{msg.proyector.noSala}"/>
+                <div class="form-text" th:text="#{msg.proyector-form.sala.help}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary"
+                    th:text="${proyector.id == null} ? #{msg.proyector-form.create} : #{msg.proyector-form.update}"></button>
+        </form>
+
+        <a th:href="@{/proyectores}" class="btn btn-secondary mt-3" th:text="#{msg.proyector-form.returnback}"></a>
+    </div>
+</main>
+
+<!-- Insertar el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
