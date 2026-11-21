@@ -24,13 +24,13 @@ public class Sala {
     @Column(name = "id_sala")
     private Long id;
 
-    @Min(value = 1, message = "El número de la sala debe ser como mínimo 1")
-    @Max(value = 99, message = "El número de la sala no puede tener más de 2 cifras")
+    @Min(value = 1, message = "{msg.sala.numero.min}")
+    @Max(value = 99, message = "{msg.sala.numero.max}")
     @Column(name = "numero", nullable = false)
     private int numeroSala;
 
-    @Min(value = 20, message = "La capacidad de la sala debe ser mínimo de 20 y máximo de 100")
-    @Max(value = 100, message = "La capacidad de la sala debe ser mínimo de 20 y máximo de 100")
+    @Min(value = 20, message = "{msg.sala.capacidad.min}")
+    @Max(value = 100, message = "{msg.sala.capacidad.max}")
     @Column(name = "capacidad", nullable = false)
     private int capacidad;
 

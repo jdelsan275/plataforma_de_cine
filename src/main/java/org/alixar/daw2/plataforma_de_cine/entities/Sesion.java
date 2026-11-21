@@ -26,17 +26,17 @@ public class Sesion {
     @Column(name = "id_sesion")
     private Long id;
 
-    @NotNull(message = "La fecha de la sesión no puede estar vacía")
+    @NotNull(message = "{msg.sesion.fecha.notNull}")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "fecha_sesion", nullable = false)
     private LocalDate fechaSesion;
 
-    @NotNull(message = "La hora de la sesión no puede estar vacía")
+    @NotNull(message = "{msg.sesion.hora.notNull}")
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     @Column(name = "hora", nullable = false)
     private LocalTime hora;
 
-    @NotNull(message = "El precio no puede estar vacío")
+    @NotNull(message = "{msg.sesion.precio.notNull}")
     @DecimalMin(value = "0.0", message = "El precio no puede ser negativo")
     @Column(name = "precio", nullable = false, precision = 6, scale = 2)
     private BigDecimal precio;
