@@ -43,9 +43,9 @@ public class Sesion {
     @JoinColumn(name = "id_sala", nullable = false)
     private Sala sala;
 
-  //  @ToString.Exclude
-  //  @EqualsAndHashCode.Exclude
-  //  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  //  @JoinColumn(name = "id_pelicula", nullable = false)
-  //  private Pelicula pelicula;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_pelicula", nullable = false)
+    private Pelicula pelicula;
 }
