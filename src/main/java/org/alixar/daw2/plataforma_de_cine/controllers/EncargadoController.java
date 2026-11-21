@@ -1,3 +1,4 @@
+
 package org.alixar.daw2.plataforma_de_cine.controllers;
 
 import jakarta.validation.Valid;
@@ -18,22 +19,42 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-
+/**
+ * Controller encargado de gestionar los encargados de las salas de cine.
+ * Permite listar, crear, editar y eliminar encargados.
+ */
 @Controller
 @RequestMapping("/encargados")
 public class EncargadoController {
 
+    /** Logger para mostrar informacion sobre las operaciones realizadas. */
     private static final Logger logger = LoggerFactory.getLogger(EncargadoController.class);
 
+    /** Repository utilizado para acceder a los encargados de la base de datos. */
     private final EncargadoRepository encargadoRepository;
+
+    /** Permite obtener los mensajes traducidos segun el idioma. */
     private final MessageSource messageSource;
 
+    /**
+     * Constructor del controller.
+     *
+     * @param encargadoRepository repository para gestionar los encargados
+     * @param messageSource componente utilizado para obtener los mensajes
+     */
     public EncargadoController(EncargadoRepository encargadoRepository, MessageSource messageSource) {
         this.encargadoRepository = encargadoRepository;
         this.messageSource = messageSource;
     }
 
 
+    /**
+     * Muestra el listado de todos los encargados.
+     *
+     * @param model modelo donde se guardan los datos que se envian a la vista
+     * @param locale idioma utilizado para mostrar los mensajes
+     * @return nombre de la vista encargados
+     */
     @GetMapping
     public String listEncargados(Model model, Locale locale) {
         logger.info("Solicitando la lista de todos los encargados...");
@@ -51,6 +72,12 @@ public class EncargadoController {
     }
 
 
+    /**
+     * Muestra el formulario para crear un encargado nuevo.
+     *
+     * @param model modelo donde se guarda el encargado vacio
+     * @return nombre de la vista del formulario
+     */
     @GetMapping("/new")
     public String showNewForm(Model model) {
         logger.info("Mostrando formulario para un nuevo encargado.");
@@ -59,6 +86,15 @@ public class EncargadoController {
     }
 
 
+    /**
+     * Busca un encargado por su id y muestra sus datos en el formulario de edicion.
+     *
+     * @param id identificador del encargado
+     * @param model modelo donde se guardan los datos del encargado
+     * @param redirectAttributes atributos que se envian al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return formulario de edicion o redireccion al listado
+     */
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model,
                                RedirectAttributes redirectAttributes, Locale locale) {
@@ -82,6 +118,15 @@ public class EncargadoController {
     }
 
 
+    /**
+     * Guarda un encargado nuevo en la base de datos.
+     *
+     * @param encargado encargado que se va a guardar
+     * @param result resultado de las validaciones del formulario
+     * @param redirectAttributes atributos para enviar mensajes al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return formulario si hay errores o redireccion al listado
+     */
     @PostMapping("/insert")
     public String insertEncargado(@Valid @ModelAttribute("encargado") Encargado encargado, BindingResult result,
                                   RedirectAttributes redirectAttributes, Locale locale) {
@@ -101,6 +146,15 @@ public class EncargadoController {
     }
 
 
+    /**
+     * Actualiza los datos de un encargado existente.
+     *
+     * @param encargado encargado con los datos actualizados
+     * @param result resultado de las validaciones del formulario
+     * @param redirectAttributes atributos para enviar mensajes al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return formulario si hay errores o redireccion al listado
+     */
     @PostMapping("/update")
     public String updateEncargado(@Valid @ModelAttribute("encargado") Encargado encargado, BindingResult result,
                                   RedirectAttributes redirectAttributes, Locale locale) {
@@ -120,6 +174,15 @@ public class EncargadoController {
         return "redirect:/encargados";
     }
 
+
+    /**
+     * Elimina un encargado utilizando su id.
+     *
+     * @param id identificador del encargado que se va a eliminar
+     * @param redirectAttributes atributos para enviar mensajes al redireccionar
+     * @param locale idioma utilizado para obtener los mensajes
+     * @return redireccion al listado de encargados
+     */
     @PostMapping("/delete")
     public String deleteEncargado(@RequestParam("id") Long id, RedirectAttributes redirectAttributes,
                                   Locale locale) {
@@ -140,6 +203,12 @@ public class EncargadoController {
     }
 
 
+    /**
+     * Recupera la sala que tenia asignada el encargado.
+     * Se utiliza cuando el formulario devuelve errores de validacion.
+     *
+     * @param encargado encargado cuya sala se quiere recuperar
+     */
     private void restoreSala(Encargado encargado) {
         if (encargado.getId() == null) {
             return;
