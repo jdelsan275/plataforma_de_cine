@@ -7,12 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * findByNacionalidadIgnoreCase: Busca actores por nacionalidad, ignorando mayúsculas y minúsculas.
- * findByNombreContainingIgnoreCaseOrPrimerApellidoContainingIgnoreCase: Busca actores cuyo nombre
- * o primer apellido contenga una cadena específica, ignorando mayúsculas y minúsculas.
+ * Repositorio para la entidad Actor.
+ * Proporciona métodos para realizar operaciones CRUD y consultas personalizadas sobre la tabla de actores.
  */
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Long> {
-    List<Actor> findByNacionalidadIgnoreCase(String nacionalidad);
-    List<Actor> findByNombreContainingIgnoreCaseOrPrimerApellidoContainingIgnoreCase(String nombre, String primerApellido);
 }

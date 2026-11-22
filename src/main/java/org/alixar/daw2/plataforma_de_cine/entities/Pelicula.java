@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,17 +27,18 @@ public class Pelicula {
     @Column(name = "id_pelicula")
     private Long id;
 
-    @NotEmpty(message = "El título no puede estar vacío")
-    @Size(max = 30, message = "El título no puede tener más de 30 caracteres")
+    @NotEmpty(message = "{msg.pelicula.titulo.notEmpty}")
+    @Size(max = 30, message = "{msg.pelicula.titulo.size}")
     @Column(name = "titulo", nullable = false, length = 30)
     private String titulo;
 
-    @NotEmpty(message = "La sinopsis no puede estar vacía")
-    @Size(max = 300, message = "La sinopsis no puede tener más de 300 caracteres")
+    @NotEmpty(message = "{msg.pelicula.sinopsis.notEmpty}")
+    @Size(max = 300, message = "{msg.pelicula.sinopsis.size}")
     @Column(name = "sinopsis", nullable = false, length = 300)
     private String sinopsis;
 
-    @NotNull(message = "La fecha de estreno no puede estar vacía")
+    @NotNull(message = "{msg.pelicula.fechaEstreno.notNull}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fecha_estreno", nullable = false)
     private LocalDate fechaEstreno;
 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (#{msg.pelicula.head-title})}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="container contenido">
+    <h1 th:text="#{msg.pelicula.title}"></h1>
+
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <p th:if="${listPeliculas != null and #lists.isEmpty(listPeliculas)}" class="mt-3" th:text="#{msg.pelicula.empty}"></p>
+
+    <div class="table-responsive" th:if="${listPeliculas != null and !#lists.isEmpty(listPeliculas)}">
+        <table class="table table-bordered mt-3 align-middle">
+            <thead>
+            <tr>
+                <th th:text="#{msg.pelicula.id}"></th>
+                <th th:text="#{msg.pelicula.titulo}"></th>
+                <th th:text="#{msg.pelicula.sinopsis}"></th>
+                <th class="text-nowrap" th:text="#{msg.pelicula.fechaEstreno}"></th>
+                <th class="text-nowrap" th:text="#{msg.pelicula.mayorEdad}"></th>
+                <th th:text="#{msg.pelicula.imagen}"></th>
+                <th th:text="#{msg.pelicula.actores}"></th>
+                <th th:text="#{msg.pelicula.actions}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pelicula : ${listPeliculas}">
+                <td th:text="${pelicula.id}"></td>
+                <td class="text-nowrap" th:text="${pelicula.titulo}"></td>
+                <td style="min-width: 260px;" th:text="${pelicula.sinopsis}"></td>
+                <td class="text-nowrap" th:text="${#temporals.format(pelicula.fechaEstreno, 'dd/MM/yyyy')}"></td>
+                <td class="text-nowrap" th:text="${pelicula.mayorEdad} ? #{msg.common.yes} : #{msg.common.no}"></td>
+                <td class="text-nowrap">
+                    <img th:if="${pelicula.imagen != null}"
+                         th:src="@{'/uploads/' + ${pelicula.imagen}}"
+                         th:alt="${pelicula.titulo}"
+                         style="width: 70px; height: 100px; object-fit: cover;" />
+                    <span th:if="${pelicula.imagen == null}" th:text="#{msg.pelicula.noImage}"></span>
+                </td>
+                <td class="text-nowrap">
+                    <span th:if="${#lists.isEmpty(pelicula.actores)}" th:text="#{msg.pelicula.noActores}"></span>
+                    <ul th:if="${!#lists.isEmpty(pelicula.actores)}" class="mb-0 ps-3">
+                        <li th:each="actor : ${pelicula.actores}"
+                            th:text="${actor.nombre + ' ' + actor.primerApellido}"></li>
+                    </ul>
+                </td>
+                <td class="text-nowrap">
+                    <a th:href="@{/peliculas/edit(id=${pelicula.id})}" class="btn btn-primary btn-sm" th:text="#{msg.pelicula.edit}"></a>
+                    <form th:action="@{/peliculas/delete}" method="post" class="d-inline">
+                        <input type="hidden" name="id" th:value="${pelicula.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                th:attr="data-confirm=#{msg.pelicula.confirm}"
+                                onclick="return confirm(this.dataset.confirm);"
+                                th:text="#{msg.pelicula.delete}">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a th:href="@{/peliculas/new}" class="btn btn-success mt-3" th:text="#{msg.pelicula.add}"></a>
+    <a th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.pelicula.returnback}"></a>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

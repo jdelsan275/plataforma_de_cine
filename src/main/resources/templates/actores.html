@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (#{msg.actor.head-title})}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="container contenido">
+    <h1 th:text="#{msg.actor.title}"></h1>
+
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <p th:if="${listActores != null and #lists.isEmpty(listActores)}" class="mt-3" th:text="#{msg.actor.empty}"></p>
+
+    <table th:if="${listActores != null and !#lists.isEmpty(listActores)}" class="table table-bordered mt-3 align-middle">
+        <thead>
+        <tr>
+            <th th:text="#{msg.actor.id}"></th>
+            <th th:text="#{msg.actor.nombre}"></th>
+            <th th:text="#{msg.actor.apellidos}"></th>
+            <th th:text="#{msg.actor.fechaNacimiento}"></th>
+            <th th:text="#{msg.actor.nacionalidad}"></th>
+            <th th:text="#{msg.actor.peliculas}"></th>
+            <th th:text="#{msg.actor.actions}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="actor : ${listActores}">
+            <td th:text="${actor.id}"></td>
+            <td th:text="${actor.nombre}"></td>
+            <td th:text="${actor.primerApellido + ' ' + (actor.segundoApellido != null ? actor.segundoApellido : '')}"></td>
+            <td th:text="${#temporals.format(actor.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+            <td th:text="${actor.nacionalidad}"></td>
+            <td>
+                <span th:if="${#lists.isEmpty(actor.peliculas)}" th:text="#{msg.actor.noPeliculas}"></span>
+                <ul th:if="${!#lists.isEmpty(actor.peliculas)}" class="mb-0 ps-3">
+                    <li th:each="pelicula : ${actor.peliculas}" th:text="${pelicula.titulo}"></li>
+                </ul>
+            </td>
+            <td>
+                <a th:href="@{/actores/edit(id=${actor.id})}" class="btn btn-primary btn-sm" th:text="#{msg.actor.edit}"></a>
+                <form th:action="@{/actores/delete}" method="post" class="d-inline">
+                    <input type="hidden" name="id" th:value="${actor.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            th:attr="data-confirm=#{msg.actor.confirm}"
+                            onclick="return confirm(this.dataset.confirm);"
+                            th:text="#{msg.actor.delete}">
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/actores/new}" class="btn btn-success mt-3" th:text="#{msg.actor.add}"></a>
+    <a th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.actor.returnback}"></a>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

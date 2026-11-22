@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head (#{msg.pelicula-form.head-title})}"></head>
+<body>
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="container contenido">
+    <h1 th:text="${pelicula.id == null} ? #{msg.pelicula-form.add} : #{msg.pelicula-form.edit}"></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="${pelicula.id == null} ? @{/peliculas/insert} : @{/peliculas/update}"
+          enctype="multipart/form-data"
+          th:object="${pelicula}" method="post" class="mt-4">
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{imagen}" />
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label" th:text="#{msg.pelicula-form.titulo}"></label>
+            <input type="text" th:field="*{titulo}" id="titulo" class="form-control" />
+            <div th:if="${#fields.hasErrors('titulo')}" class="text-danger" th:errors="*{titulo}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="sinopsis" class="form-label" th:text="#{msg.pelicula-form.sinopsis}"></label>
+            <textarea th:field="*{sinopsis}" id="sinopsis" rows="3" class="form-control"></textarea>
+            <div th:if="${#fields.hasErrors('sinopsis')}" class="text-danger" th:errors="*{sinopsis}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="fechaEstreno" class="form-label" th:text="#{msg.pelicula-form.fechaEstreno}"></label>
+            <input type="date" th:field="*{fechaEstreno}" id="fechaEstreno" class="form-control" />
+            <div th:if="${#fields.hasErrors('fechaEstreno')}" class="text-danger" th:errors="*{fechaEstreno}"></div>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" th:field="*{mayorEdad}" id="mayorEdad" class="form-check-input" />
+            <label for="mayorEdad" class="form-check-label" th:text="#{msg.pelicula-form.mayorEdad}"></label>
+        </div>
+
+        <div class="mb-3">
+            <label for="imageFile" class="form-label" th:text="#{msg.pelicula-form.imagen}"></label>
+            <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" />
+            <div th:if="${pelicula.imagen != null}" class="mt-2">
+                <img th:src="@{'/uploads/' + ${pelicula.imagen}}"
+                     th:alt="${pelicula.titulo}"
+                     style="width: 90px; height: 120px; object-fit: cover;" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" th:text="#{msg.pelicula-form.actores}"></label>
+            <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+                <p th:if="${#lists.isEmpty(listActores)}" class="text-muted mb-0" th:text="#{msg.pelicula-form.noActores}"></p>
+                <div th:each="actor : ${listActores}" class="form-check">
+                    <input type="checkbox"
+                           th:field="*{actores}"
+                           th:value="${actor.id}"
+                           th:id="${'actor_' + actor.id}"
+                           class="form-check-input" />
+                    <label th:for="${'actor_' + actor.id}"
+                           class="form-check-label"
+                           th:text="${actor.nombre + ' ' + actor.primerApellido + (actor.segundoApellido != null ? ' ' + actor.segundoApellido : '')}"></label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+                th:text="${pelicula.id == null} ? #{msg.pelicula-form.create} : #{msg.pelicula-form.update}"></button>
+    </form>
+
+    <a th:href="@{/peliculas}" class="btn btn-secondary mt-3" th:text="#{msg.pelicula-form.returnback}"></a>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

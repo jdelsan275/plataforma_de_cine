@@ -9,14 +9,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * findByTituloContainingIgnoreCase: Busca películas cuyo título contenga una cadena específica, ignorando mayúsculas y minúsculas.
- * findByMayorEdad: Busca películas según si son para mayores de edad o no.
- * findPeliculasPorActor: Busca películas asociadas a un actor específico por su ID.
+ * Repositorio para la entidad Pelicula.
+ * Proporciona métodos para realizar operaciones CRUD y consultas personalizadas sobre la tabla de películas.
+ * existeByTituloIgnoreCase: Verifica si existe una película con un título específico, ignorando mayúsculas y minúsculas.
+ * existeByTituloIgnoreCaseAndIdNot: Verifica si existe una película con un título específico, ignorando mayúsculas y minúsculas, excluyendo una película con un ID específico
  */
 @Repository
 public interface PeliculaRepository extends JpaRepository<Pelicula, Long> {
-    List<Pelicula> findByTituloContainingIgnoreCase(String titulo);
-    List<Pelicula> findByMayorEdad(boolean mayorEdad);
-    @Query("SELECT p FROM Pelicula p JOIN p.actores a WHERE a.id = :idActor ORDER BY p.titulo ASC")
-    List<Pelicula> findPeliculasPorActor(@Param("idActor") Long idActor);
+    boolean existsByTituloIgnoreCase(String titulo);
+    boolean existsByTituloIgnoreCaseAndIdNot(String titulo, Long id);
 }
