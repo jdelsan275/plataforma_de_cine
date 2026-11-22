@@ -43,6 +43,9 @@ public class Pelicula {
     @Column(name = "mayor_edad", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean mayorEdad;
 
+    @Column(name = "imagen")
+    private String imagen;
+
     /**
      * Relación ManyToMany con la entidad Actor.
      * Representa los actores que participan en la película.

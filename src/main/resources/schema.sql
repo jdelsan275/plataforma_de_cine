@@ -32,7 +32,8 @@ CREATE TABLE IF NOT EXISTS pelicula
     titulo VARCHAR(30) NOT NULL,
     sinopsis VARCHAR(300) NOT NULL,
     fecha_estreno DATE NOT NULL,
-    mayor_edad BOOLEAN NOT NULL
+    mayor_edad BOOLEAN NOT NULL,
+    imagen VARCHAR(100)
     );
 
 CREATE TABLE IF NOT EXISTS actor
