@@ -40,7 +40,7 @@ public class Pelicula {
     @Column(name = "fecha_estreno", nullable = false)
     private LocalDate fechaEstreno;
 
-    @Column(name = "mayorEdad", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(name = "mayor_edad", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean mayorEdad;
 
     /**

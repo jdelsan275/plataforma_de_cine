@@ -33,11 +33,11 @@ public class Actor {
 
     @NotEmpty(message = "El primer apellido no puede estar vacío")
     @Size(max = 50, message = "El primer apellido no puede tener más de 50 caracteres")
-    @Column(name = "primerApellido", nullable = false, length = 50)
+    @Column(name = "primer_apellido", nullable = false, length = 50)
     private String primerApellido;
 
     @Size(max = 50, message = "El segundo apellido no puede tener más de 50 caracteres")
-    @Column(name = "segundoApellido", length = 50)
+    @Column(name = "segundo_apellido", length = 50)
     private String segundoApellido;
 
     @NotNull(message = "La fecha de nacimiento no puede estar vacía")
