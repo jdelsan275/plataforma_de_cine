@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,26 +27,27 @@ public class Actor {
     @Column(name = "id_actor")
     private Long id;
 
-    @NotEmpty(message = "El nombre no puede estar vacío")
-    @Size(max = 20, message = "El nombre no puede tener más de 20 caracteres")
+    @NotEmpty(message = "{msg.actor.nombre.notEmpty}")
+    @Size(max = 20, message = "{msg.actor.nombre.size}")
     @Column(name = "nombre", nullable = false, length = 20)
     private String nombre;
 
-    @NotEmpty(message = "El primer apellido no puede estar vacío")
-    @Size(max = 50, message = "El primer apellido no puede tener más de 50 caracteres")
+    @NotEmpty(message = "{msg.actor.primerApellido.notEmpty}")
+    @Size(max = 50, message = "{msg.actor.primerApellido.size}")
     @Column(name = "primer_apellido", nullable = false, length = 50)
     private String primerApellido;
 
-    @Size(max = 50, message = "El segundo apellido no puede tener más de 50 caracteres")
+    @Size(max = 50, message = "{msg.actor.segundoApellido.size}")
     @Column(name = "segundo_apellido", length = 50)
     private String segundoApellido;
 
-    @NotNull(message = "La fecha de nacimiento no puede estar vacía")
+    @NotNull(message = "{msg.actor.fechaNacimiento.notNull}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fecha_nacimiento", nullable = false)
     private LocalDate fechaNacimiento;
 
-    @NotEmpty(message = "La nacionalidad no puede estar vacía")
-    @Size(max = 30, message = "La nacionalidad no puede tener más de 30 caracteres")
+    @NotEmpty(message = "{msg.actor.nacionalidad.notEmpty}")
+    @Size(max = 30, message = "{msg.actor.nacionalidad.size}")
     @Column(name = "nacionalidad", nullable = false, length = 30)
     private String nacionalidad;
 
