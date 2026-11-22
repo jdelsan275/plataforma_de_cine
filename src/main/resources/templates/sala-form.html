@@ -1,59 +1,65 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="#{msg.sala.title}">Sala</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/head :: head('Plataforma de Cine - Sala')}"></head>
 <body>
-<div class="container mt-4" style="max-width: 600px;">
-    <h1 th:text="${sala.id == null} ? #{msg.sala.form.new} : #{msg.sala.form.edit}">Sala</h1>
 
-    <form th:action="${sala.id == null} ? @{/salas/insert} : @{/salas/update}"
-          th:object="${sala}" method="post" class="mt-4">
+<!-- Insertar el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
 
-        <input type="hidden" th:if="*{id != null}" th:field="*{id}"/>
+<main class="flex-shrink-0 contenido">
+    <div class="container" style="max-width: 600px;">
+        <h1 th:text="${sala.id == null} ? #{msg.sala.form.new} : #{msg.sala.form.edit}">Sala</h1>
 
-        <div class="mb-3">
-            <label for="numeroSala" class="form-label" th:text="#{msg.sala.numero}">Número</label>
-            <input type="number" th:field="*{numeroSala}" class="form-control"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('numeroSala')}" th:errors="*{numeroSala}"></div>
-        </div>
+        <form th:action="${sala.id == null} ? @{/salas/insert} : @{/salas/update}"
+              th:object="${sala}" method="post" class="mt-4">
 
-        <div class="mb-3">
-            <label for="capacidad" class="form-label" th:text="#{msg.sala.capacidad}">Capacidad</label>
-            <input type="number" th:field="*{capacidad}" class="form-control"/>
-            <div class="text-danger" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></div>
-        </div>
+            <input type="hidden" th:if="*{id != null}" th:field="*{id}"/>
 
-        <div class="form-check mb-3">
-            <input type="checkbox" th:field="*{tiene3D}" class="form-check-input"/>
-            <label for="tiene3D" class="form-check-label" th:text="#{msg.sala.tiene3D}">3D</label>
-        </div>
+            <div class="mb-3">
+                <label for="numeroSala" class="form-label" th:text="#{msg.sala.numero}">Número</label>
+                <input type="number" th:field="*{numeroSala}" class="form-control"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('numeroSala')}" th:errors="*{numeroSala}"></div>
+            </div>
 
-        <div class="mb-3">
-            <label for="encargado.id" class="form-label" th:text="#{msg.sala.encargado}">Encargado</label>
-            <select th:field="*{encargado.id}" class="form-select">
-                <option value="" th:text="#{msg.sala.form.select}"></option>
-                <option th:each="e : ${encargados}" th:value="${e.id}"
-                        th:text="${e.nombre + ' ' + e.primerApellido}"></option>
-            </select>
-            <div class="text-danger" th:if="${#fields.hasErrors('encargado')}" th:errors="*{encargado}"></div>
-        </div>
+            <div class="mb-3">
+                <label for="capacidad" class="form-label" th:text="#{msg.sala.capacidad}">Capacidad</label>
+                <input type="number" th:field="*{capacidad}" class="form-control"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('capacidad')}" th:errors="*{capacidad}"></div>
+            </div>
 
-        <div class="mb-3">
-            <label for="proyector.id" class="form-label" th:text="#{msg.sala.proyector}">Proyector</label>
-            <select th:field="*{proyector.id}" class="form-select">
-                <option value="" th:text="#{msg.sala.form.select}"></option>
-                <option th:each="p : ${proyectores}" th:value="${p.id}"
-                        th:text="${p.marca + ' ' + p.modelo}"></option>
-            </select>
-            <div class="text-danger" th:if="${#fields.hasErrors('proyector')}" th:errors="*{proyector}"></div>
-        </div>
+            <div class="form-check mb-3">
+                <input type="checkbox" th:field="*{tiene3D}" class="form-check-input"/>
+                <label for="tiene3D" class="form-check-label" th:text="#{msg.sala.tiene3D}">3D</label>
+            </div>
 
-        <button type="submit" class="btn btn-primary" th:text="#{msg.sala.form.save}">Guardar</button>
-        <a th:href="@{/salas}" class="btn btn-secondary" th:text="#{msg.sala.form.cancel}">Cancelar</a>
-    </form>
-</div>
+            <div class="mb-3">
+                <label for="encargado.id" class="form-label" th:text="#{msg.sala.encargado}">Encargado</label>
+                <select th:field="*{encargado.id}" class="form-select">
+                    <option value="" th:text="#{msg.sala.form.select}"></option>
+                    <option th:each="e : ${encargados}" th:value="${e.id}"
+                            th:text="${e.nombre + ' ' + e.primerApellido}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('encargado')}" th:errors="*{encargado}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="proyector.id" class="form-label" th:text="#{msg.sala.proyector}">Proyector</label>
+                <select th:field="*{proyector.id}" class="form-select">
+                    <option value="" th:text="#{msg.sala.form.select}"></option>
+                    <option th:each="p : ${proyectores}" th:value="${p.id}"
+                            th:text="${p.marca + ' ' + p.modelo}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('proyector')}" th:errors="*{proyector}"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" th:text="#{msg.sala.form.save}">Guardar</button>
+            <a th:href="@{/salas}" class="btn btn-secondary" th:text="#{msg.sala.form.cancel}">Cancelar</a>
+        </form>
+    </div>
+</main>
+
+<!-- Insertar el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </body>
 </html>

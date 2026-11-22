@@ -1,56 +1,62 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="#{msg.sesion.title}">Sesiones</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/head :: head('Plataforma de Cine - Sesiones')}"></head>
 <body>
-<div class="container mt-4">
-    <h1 th:text="#{msg.sesion.title}">Sesiones</h1>
 
-    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+<!-- Insertar el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
 
-    <a th:href="@{/sesiones/new}" class="btn btn-primary mb-3" th:text="#{msg.sesion.new}">Nueva sesión</a>
+<main class="flex-shrink-0 contenido">
+    <div class="container">
+        <h1 th:text="#{msg.sesion.title}">Sesiones</h1>
 
-    <table class="table table-striped align-middle">
-        <thead>
-        <tr>
-            <th th:text="#{msg.sesion.id}">ID</th>
-            <th th:text="#{msg.sesion.fecha}">Fecha</th>
-            <th th:text="#{msg.sesion.hora}">Hora</th>
-            <th th:text="#{msg.sesion.precio}">Precio</th>
-            <th th:text="#{msg.sesion.am}">Mañana</th>
-            <th th:text="#{msg.sesion.sala}">Sala</th>
-            <th th:text="#{msg.sesion.pelicula}">Película</th>
-            <th th:text="#{msg.sesion.actions}">Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="sesion : ${listSesiones}">
-            <td th:text="${sesion.id}"></td>
-            <td th:text="${#temporals.format(sesion.fechaSesion, 'dd/MM/yyyy')}"></td>
-            <td th:text="${#temporals.format(sesion.hora, 'HH:mm')}"></td>
-            <td th:text="${#numbers.formatDecimal(sesion.precio, 1, 2) + ' €'}"></td>
-            <td th:text="${sesion.sesionAM} ? '✓' : '✗'"></td>
-            <td th:text="${sesion.sala.numeroSala}"></td>
-            <td th:text="${sesion.pelicula.titulo}"></td>
-            <td>
-                <a th:href="@{/sesiones/edit(id=${sesion.id})}" class="btn btn-sm btn-primary"
-                   th:text="#{msg.sesion.edit}">Editar</a>
-                <form th:action="@{/sesiones/delete}" method="post" class="d-inline"
-                      th:onsubmit="'return confirm(\'' + #{msg.sesion.delete.confirm} + '\');'">
-                    <input type="hidden" name="id" th:value="${sesion.id}"/>
-                    <button type="submit" class="btn btn-sm btn-danger"
-                            th:text="#{msg.sesion.delete}">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(listSesiones)}">
-            <td colspan="8" class="text-center" th:text="#{msg.sesion.empty}">No hay sesiones</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+        <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+        <a th:href="@{/sesiones/new}" class="btn btn-primary mb-3" th:text="#{msg.sesion.new}">Nueva sesión</a>
+
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th th:text="#{msg.sesion.id}">ID</th>
+                <th th:text="#{msg.sesion.fecha}">Fecha</th>
+                <th th:text="#{msg.sesion.hora}">Hora</th>
+                <th th:text="#{msg.sesion.precio}">Precio</th>
+                <th th:text="#{msg.sesion.am}">Mañana</th>
+                <th th:text="#{msg.sesion.sala}">Sala</th>
+                <th th:text="#{msg.sesion.pelicula}">Película</th>
+                <th th:text="#{msg.sesion.actions}">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="sesion : ${listSesiones}">
+                <td th:text="${sesion.id}"></td>
+                <td th:text="${#temporals.format(sesion.fechaSesion, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#temporals.format(sesion.hora, 'HH:mm')}"></td>
+                <td th:text="${#numbers.formatDecimal(sesion.precio, 1, 2) + ' €'}"></td>
+                <td th:text="${sesion.sesionAM} ? '✓' : '✗'"></td>
+                <td th:text="${sesion.sala.numeroSala}"></td>
+                <td th:text="${sesion.pelicula.titulo}"></td>
+                <td>
+                    <a th:href="@{/sesiones/edit(id=${sesion.id})}" class="btn btn-sm btn-primary"
+                       th:text="#{msg.sesion.edit}">Editar</a>
+                    <form th:action="@{/sesiones/delete}" method="post" class="d-inline"
+                          th:onsubmit="'return confirm(\'' + #{msg.sesion.delete.confirm} + '\');'">
+                        <input type="hidden" name="id" th:value="${sesion.id}"/>
+                        <button type="submit" class="btn btn-sm btn-danger"
+                                th:text="#{msg.sesion.delete}">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(listSesiones)}">
+                <td colspan="8" class="text-center" th:text="#{msg.sesion.empty}">No hay sesiones</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Insertar el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </body>
 </html>
