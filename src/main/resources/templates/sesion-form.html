@@ -42,7 +42,7 @@
             <select th:field="*{sala.id}" class="form-select">
                 <option value="" th:text="#{msg.sesion.form.select}"></option>
                 <option th:each="s : ${salas}" th:value="${s.id}"
-                        th:text="${'Sala ' + s.numeroSala}"></option>
+                        th:text="#{msg.sesion.sala} + ' ' + ${s.numeroSala}"></option>
             </select>
             <div class="text-danger" th:if="${#fields.hasErrors('sala')}" th:errors="*{sala}"></div>
         </div>
