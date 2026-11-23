@@ -16,7 +16,6 @@
           enctype="multipart/form-data"
           th:object="${pelicula}" method="post" class="mt-4">
         <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{imagen}" />
 
         <div class="mb-3">
             <label for="titulo" class="form-label" th:text="#{msg.pelicula-form.titulo}"></label>
@@ -44,11 +43,6 @@
         <div class="mb-3">
             <label for="imageFile" class="form-label" th:text="#{msg.pelicula-form.imagen}"></label>
             <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" />
-            <div th:if="${pelicula.imagen != null}" class="mt-2">
-                <img th:src="@{'/uploads/' + ${pelicula.imagen}}"
-                     th:alt="${pelicula.titulo}"
-                     style="width: 90px; height: 120px; object-fit: cover;" />
-            </div>
         </div>
 
         <div class="mb-3">

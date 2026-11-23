@@ -136,7 +136,7 @@ public class PeliculaController {
                 return loadActoresAndShowForm(model, redirectAttributes, locale);
             }
             // Guardar la imagen subida si el usuario seleccionó un archivo
-            if (imageFile != null && !imageFile.isEmpty()) {
+            if (!imageFile.isEmpty()) {
                 String fileName = fileStorageService.saveFile(imageFile);
                 if (fileName != null) {
                     pelicula.setImagen(fileName);
@@ -200,7 +200,7 @@ public class PeliculaController {
             // Solo si se sube una imagen nueva se sustituye la anterior; si no, se conserva
             String oldImage = existingPelicula.getImagen();
             boolean imageReplaced = false;
-            if (imageFile != null && !imageFile.isEmpty()) {
+            if (!imageFile.isEmpty()) {
                 String fileName = fileStorageService.saveFile(imageFile);
                 if (fileName != null) {
                     existingPelicula.setImagen(fileName);
@@ -211,7 +211,7 @@ public class PeliculaController {
                     return "redirect:/peliculas/edit?id=" + pelicula.getId();
                 }
             }
-            peliculaRepository.save(pelicula);
+            peliculaRepository.save(existingPelicula);
             // Si se reemplazó la imagen, eliminar la anterior del sistema de archivos
             if (imageReplaced && oldImage != null && !oldImage.isEmpty()) {
                 fileStorageService.deleteFile(oldImage);
